@@ -1,0 +1,12 @@
+{
+  "project": "LiftLog Client",
+  "framework": "React + Vite + Tailwind CSS",
+  "roles": [
+    "user",
+    "admin"
+  ],
+  "source_files": 61,
+  "zip_files": 61,
+  "zip_integrity": "passed",
+  "image_asset": "Chris Bumstead on Gymshark \u2014 Gymshark, CC BY 3.0 via Wikimedia Commons"
+}
