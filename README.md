@@ -314,8 +314,6 @@ LiftLog uses
 
 Full-Stack Developer (MERN + WordPress)
 
-- GitHub: https://github.com/Samad123-byte
-- LinkedIn: https://linkedin.com/in/samadkhan123
 
 ---
 
