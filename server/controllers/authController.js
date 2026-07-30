@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
-import setCookie from "../utils/setCookie.js";
+import setCookie, { clearAuthCookie } from "../utils/setCookie.js";
 
 export const registerUser = async (req, res) => {
 
@@ -131,11 +131,7 @@ setCookie(res, token);
 export const logoutUser = async (req, res) => {
   try {
 
-    res.clearCookie("token", {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    });
+    clearAuthCookie(res);
 
     res.status(200).json({
       success: true,

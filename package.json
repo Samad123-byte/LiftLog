@@ -1,11 +1,16 @@
 {
   "name": "liftlog-monorepo",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "install:all": "npm install --prefix client && npm install --prefix server",
+    "install:all": "npm ci --include=dev --prefix client && npm ci --omit=dev --prefix server",
     "dev": "concurrently -n CLIENT,SERVER -c blue,green \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
-    "build": "npm run build --prefix client"
+    "build": "npm run build --prefix client",
+    "vercel-build": "npm run build --prefix client"
   },
   "devDependencies": {
     "concurrently": "^9.1.0"
