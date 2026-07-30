@@ -5,10 +5,12 @@ const protect = async (req, res, next) => {
   try {
     let token;
 
-    // Check Authorization header
-  if(req.cookies.token){
-    token = req.cookies.token;
-}
+    // Check Authorization header first (needed for cross-site requests)
+    if (req.headers.authorization?.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies.token) {
+      token = req.cookies.token;
+    }
 
     if (!token) {
       return res.status(401).json({
@@ -17,13 +19,8 @@ const protect = async (req, res, next) => {
       });
     }
 
-    // Verify token
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET
-    );
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Find user from token id
     req.user = await User.findById(decoded.id);
 
     if (!req.user) {
@@ -33,9 +30,7 @@ const protect = async (req, res, next) => {
       });
     }
 
-    // Continue to next middleware/controller
     next();
-
   } catch (error) {
     console.error("Auth Middleware Error:", error.message);
 
