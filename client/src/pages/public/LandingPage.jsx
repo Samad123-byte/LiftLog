@@ -294,7 +294,7 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-[1500px] flex-col gap-4 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} LiftLog. Train. Track. Progress.</span>
           <span>
-            Chris Bumstead photo: Gymshark, CC BY 3.0 via Wikimedia Commons. No endorsement implied.
+Designed & developed by Abdul Samad Khan.
           </span>
         </div>
       </footer>
