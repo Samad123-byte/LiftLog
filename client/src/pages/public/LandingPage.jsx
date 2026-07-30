@@ -10,9 +10,11 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Logo from "../../components/common/Logo";
 import cbumImage from "../../assets/chris-bumstead.jpg";
+import { useAuth } from "../../context/AuthContext";
+import Loader from "../../components/common/Loader";
 
 const features = [
   {
@@ -38,6 +40,23 @@ const features = [
 ];
 
 export default function LandingPage() {
+
+
+
+  const { user, loading } = useAuth();
+
+  if (loading) {
+  return <Loader label="Loading LiftLog..." />;
+}
+  if (user) {
+    return (
+      <Navigate
+        to={user.role === "admin" ? "/admin" : "/dashboard"}
+        replace
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-void text-platinum">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[.06] bg-void/70 backdrop-blur-2xl">
