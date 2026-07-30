@@ -1,7 +1,9 @@
 import axios from "axios";
 
+// With client + api on the SAME Vercel project/domain, this can just be a
+// relative path. No more VITE_API_URL juggling between environments.
 const http = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || "/api",
   withCredentials: true,
   timeout: 20000,
 });
