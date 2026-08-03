@@ -4,7 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./context/ToastContext";
+import { registerSW } from "virtual:pwa-register";
 import "./index.css";
+
+registerSW({
+  immediate: true,
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
