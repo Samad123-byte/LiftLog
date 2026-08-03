@@ -216,7 +216,7 @@ export default function ExerciseDetailPage() {
                   Video not added yet
                 </h2>
                 <p className="mt-2 text-sm text-muted">
-                  The administrator can add a YouTube demonstration from the exercise editor.
+                   No video demonstration is available for this exercise yet.
                 </p>
               </div>
             </section>
