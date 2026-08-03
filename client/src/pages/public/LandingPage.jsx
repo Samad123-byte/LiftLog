@@ -15,6 +15,7 @@ import Logo from "../../components/common/Logo";
 import cbumImage from "../../assets/chris-bumstead.jpg";
 import { useAuth } from "../../context/AuthContext";
 import Loader from "../../components/common/Loader";
+import InstallButton from "../../components/common/InstallButton";
 
 const features = [
   {
@@ -143,6 +144,7 @@ export default function LandingPage() {
                   Open your dashboard
                   <ArrowRight size={18} />
                 </Link>
+                <InstallButton />
               </div>
 
               <div className="mt-11 flex flex-wrap gap-x-7 gap-y-3 text-xs text-muted">
