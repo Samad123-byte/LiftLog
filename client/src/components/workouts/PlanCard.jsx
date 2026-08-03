@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import {
   CalendarDays,
+  Copy,
   Dumbbell,
   Pencil,
   Play,
@@ -13,7 +14,7 @@ import {
   uniqueMuscleGroups,
 } from "../../utils/training";
 
-export default function PlanCard({ plan, onDelete }) {
+export default function PlanCard({ plan, onDelete, onDuplicate, duplicating }) {
   const muscles = uniqueMuscleGroups(plan);
   const coverImage = plan.exercises?.find((item) => item.exercise?.thumbnail)?.exercise?.thumbnail;
 
@@ -82,7 +83,7 @@ export default function PlanCard({ plan, onDelete }) {
           Estimated {estimatePlanMinutes(plan)} min
         </div>
 
-        <div className="mt-5 grid grid-cols-[1fr_auto_auto] gap-2">
+        <div className="mt-5 grid grid-cols-[1fr_auto_auto_auto] gap-2">
           <Link
             to={`/workout/${plan._id}`}
             className="focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-platinum px-4 text-sm font-bold text-void transition hover:-translate-y-0.5 hover:bg-white"
@@ -98,6 +99,16 @@ export default function PlanCard({ plan, onDelete }) {
           >
             <Pencil size={17} />
           </Link>
+
+          <button
+            type="button"
+            onClick={() => onDuplicate(plan)}
+            disabled={duplicating}
+            className="focus-ring grid h-11 w-11 place-items-center rounded-xl border border-white/10 bg-white/[.045] text-silver transition hover:bg-white/[.09] hover:text-platinum disabled:cursor-not-allowed disabled:opacity-50"
+            aria-label={`Duplicate ${plan.name}`}
+          >
+            <Copy size={17} className={duplicating ? "animate-pulse" : ""} />
+          </button>
 
           <button
             type="button"

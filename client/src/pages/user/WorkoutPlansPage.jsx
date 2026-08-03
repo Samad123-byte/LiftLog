@@ -17,6 +17,7 @@ export default function WorkoutPlansPage() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [duplicatingId, setDuplicatingId] = useState(null);
 
   const load = async () => {
     try {
@@ -30,6 +31,19 @@ export default function WorkoutPlansPage() {
   useEffect(() => {
     load();
   }, []);
+
+  const duplicate = async (plan) => {
+    setDuplicatingId(plan._id);
+    try {
+      const { data } = await planApi.duplicate(plan._id);
+      setPlans((current) => [data.workoutPlan, ...current]);
+      toast.success(`${plan.name} was duplicated.`);
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Unable to duplicate plan."));
+    } finally {
+      setDuplicatingId(null);
+    }
+  };
 
   const remove = async () => {
     if (!selected) return;
@@ -67,7 +81,13 @@ export default function WorkoutPlansPage() {
 
       <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
         {plans.map((plan) => (
-          <PlanCard key={plan._id} plan={plan} onDelete={setSelected} />
+          <PlanCard
+            key={plan._id}
+            plan={plan}
+            onDelete={setSelected}
+            onDuplicate={duplicate}
+            duplicating={duplicatingId === plan._id}
+          />
         ))}
 
         {!plans.length && (

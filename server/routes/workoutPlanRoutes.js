@@ -7,7 +7,9 @@ import {
   getWorkoutPlanById,
   updateWorkoutPlan,
   deleteWorkoutPlan,
-getTodayWorkout
+getTodayWorkout,
+getUpcomingWorkout,
+duplicateWorkoutPlan,
 } from "../controllers/workoutPlanController.js";
 
 const router = express.Router();
@@ -17,6 +19,10 @@ router.post("/", protect, createWorkoutPlan);
 router.get("/", protect, getWorkoutPlans);
 
 router.get("/today", protect, getTodayWorkout);
+
+router.get("/upcoming", protect, getUpcomingWorkout);
+
+router.post("/:id/duplicate", protect, duplicateWorkoutPlan);
 
 router.get("/:id", protect, getWorkoutPlanById);
 

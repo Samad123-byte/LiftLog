@@ -35,6 +35,7 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const [data, setData] = useState({
     today: null,
+    upcoming: [],
     plans: [],
     sessions: [],
     records: [],
@@ -44,8 +45,9 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const load = async () => {
-      const [today, plans, sessions, records, exercises] = await Promise.allSettled([
+      const [today, upcoming, plans, sessions, records, exercises] = await Promise.allSettled([
         planApi.getToday(),
+        planApi.getUpcoming(),
         planApi.getAll(),
         sessionApi.getAll(),
         recordApi.getAll(),
@@ -54,6 +56,7 @@ export default function DashboardPage() {
 
       setData({
         today: today.status === "fulfilled" ? today.value.data.workoutPlan : null,
+        upcoming: upcoming.status === "fulfilled" ? upcoming.value.data.upcoming || [] : [],
         plans: plans.status === "fulfilled" ? plans.value.data.workoutPlans || [] : [],
         sessions: sessions.status === "fulfilled" ? sessions.value.data.workoutSessions || [] : [],
         records: records.status === "fulfilled" ? records.value.data.records || [] : [],
@@ -281,6 +284,50 @@ export default function DashboardPage() {
         </section>
 
         <div className="grid gap-6">
+          <section className="glass-card p-5 sm:p-6">
+            <p className="section-kicker">Up next</p>
+
+            {data.upcoming.length ? (
+              <div className="mt-3 grid gap-2.5">
+                {data.upcoming.map((item, index) => (
+                  <Link
+                    key={`${item.workoutPlan?._id}-${item.day}`}
+                    to={`/workout/${item.workoutPlan?._id}`}
+                    className="focus-ring flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[.03] px-4 py-3 transition hover:border-white/20 hover:bg-white/[.055]"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-platinum">
+                        {item.workoutPlan?.name}
+                      </p>
+                      <p className="mt-0.5 text-xs text-muted">
+                        {item.day} ·{" "}
+                        {item.workoutPlan?.exercises?.length || 0} exercises
+                      </p>
+                    </div>
+
+                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/[.055] px-3 py-1 text-[11px] font-semibold text-silver">
+                      <CalendarDays size={13} />
+                      {item.daysAway === 1 ? "Tomorrow" : `In ${item.daysAway}d`}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <>
+                <p className="mt-3 text-sm text-muted">
+                  No upcoming workout scheduled yet.
+                </p>
+                <Link
+                  to="/plans/new"
+                  className="focus-ring mt-4 inline-flex min-h-10 items-center gap-2 rounded-xl border border-white/15 bg-white/[.055] px-4 text-xs font-bold text-platinum transition hover:border-white/25 hover:bg-white/[.08]"
+                >
+                  Build a workout plan
+                  <ArrowRight size={15} />
+                </Link>
+              </>
+            )}
+          </section>
+
           <section className="glass-card p-5 sm:p-6">
             <div className="flex items-center gap-3">
               <span className="grid h-11 w-11 place-items-center rounded-2xl border border-gold/20 bg-gold/10 text-[#e8c57c]">
